@@ -1,0 +1,1224 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Palace">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Minuit au Palace</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#0d0e11">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Limelight&family=Poiret+One&family=Josefin+Sans:wght@400;600;700&display=swap">
+<style>
+/* Layout : une colonne façon carton d'invitation, cadres dorés à pans coupés, éventail en fond. Thème unique nuit & or. */
+:root {
+  --ink: #0d0e11;
+  --panel: #16181e;
+  --panel-2: #1d2028;
+  --line: #3a3426;
+  --gold: #c9a24a;
+  --gold-hi: #ead08a;
+  --cream: #eee5cf;
+  --muted: #9a927f;
+  --jade: #4f9a86;
+  --ruby: #c2464f;
+  --violet: #9a7ac8;
+  --f-display: "Limelight", "Didot", "Bodoni 72", Georgia, serif;
+  --f-deco: "Poiret One", "Futura", "Century Gothic", sans-serif;
+  --f-body: "Josefin Sans", "Futura", "Century Gothic", "Trebuchet MS", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-tap-highlight-color: transparent;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 30; background: var(--ink);
+}
+.fan {
+  position: fixed; inset: auto -40vmax -60vmax; height: 100vmax; z-index: 0; pointer-events: none;
+  background: repeating-conic-gradient(from -90deg at 50% 50%, color-mix(in srgb, var(--gold) 9%, transparent) 0deg 1deg, transparent 1deg 9deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0 40%, transparent 70%);
+          mask-image: radial-gradient(circle at 50% 50%, #000 0 40%, transparent 70%);
+}
+#app {
+  position: relative; z-index: 1;
+  max-width: 560px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 48px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+h1, h2, h3 { margin: 0; font-weight: 400; text-wrap: balance; }
+p { margin: 0; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
+
+/* --- typographie --- */
+.eyebrow {
+  font-family: var(--f-deco); font-size: 13px; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--gold); font-weight: 700;
+}
+.display { font-family: var(--f-display); color: var(--gold-hi); letter-spacing: .02em; }
+.muted { color: var(--muted); }
+.small { font-size: 14px; }
+.script { font-style: italic; color: var(--cream); opacity: .9; }
+
+/* --- ornements --- */
+.rule {
+  display: flex; align-items: center; gap: 10px; color: var(--gold);
+}
+.rule::before, .rule::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+.rule::after { background: linear-gradient(90deg, var(--gold), transparent); }
+.rule span { width: 8px; height: 8px; transform: rotate(45deg); border: 1px solid var(--gold); }
+
+.frame {
+  position: relative; background: var(--panel);
+  border: 1px solid var(--gold);
+  clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px), 0 14px);
+  padding: 20px;
+}
+.frame::before {
+  content: ""; position: absolute; inset: 5px; pointer-events: none;
+  border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
+}
+.frame > * { position: relative; }
+
+/* --- boutons --- */
+.btn {
+  appearance: none; border: 1px solid var(--gold); background: transparent; color: var(--gold-hi);
+  font-family: var(--f-body); font-weight: 700; font-size: 15px; letter-spacing: .14em; text-transform: uppercase;
+  padding: 14px 18px; min-height: 50px; cursor: pointer; width: 100%;
+  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0 50%);
+  transition: background .15s, color .15s;
+}
+.btn:hover { background: color-mix(in srgb, var(--gold) 14%, transparent); }
+.btn.primary { background: var(--gold); color: var(--ink); }
+.btn.primary:hover { background: var(--gold-hi); }
+.btn.danger { border-color: var(--ruby); color: var(--ruby); }
+.btn[disabled] { opacity: .35; cursor: not-allowed; }
+.btn.slim { min-height: 40px; padding: 8px 14px; font-size: 13px; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+.row > .btn { flex: 1 1 140px; width: auto; }
+.linkbtn {
+  appearance: none; background: none; border: 0; color: var(--gold); cursor: pointer;
+  font-family: var(--f-body); font-size: 14px; letter-spacing: .12em; text-transform: uppercase; padding: 8px 4px;
+}
+.iconbtn {
+  appearance: none; background: transparent; border: 1px solid var(--line); color: var(--gold);
+  width: 42px; height: 42px; display: grid; place-items: center; cursor: pointer;
+}
+.iconbtn svg { width: 22px; height: 22px; }
+
+/* --- glyphes --- */
+.glyph { width: 40px; height: 40px; flex: none; color: var(--gold); }
+.glyph svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.camp-fauves { color: var(--ruby); }
+.camp-palace { color: var(--jade); }
+
+/* --- accueil --- */
+.hero { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; padding-top: 18px; }
+.hero h1 { font-family: var(--f-display); font-size: clamp(44px, 13vw, 68px); line-height: .95; color: var(--gold-hi); }
+.hero h1 small { display: block; font-family: var(--f-deco); font-size: .32em; letter-spacing: .5em; color: var(--gold); margin-bottom: 10px; font-weight: 700; }
+.clock { width: 120px; height: 120px; color: var(--gold); }
+.clock svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.3; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+
+/* --- listes de joueurs (saisie) --- */
+.addform { display: flex; gap: 8px; }
+.addform input {
+  flex: 1; min-width: 0; background: var(--panel-2); color: var(--cream); border: 1px solid var(--line);
+  font: inherit; font-size: 17px; padding: 12px 14px;
+}
+.addform input:focus { border-color: var(--gold); outline: none; }
+.addform .btn { width: auto; flex: none; }
+.namelist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.namelist li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.namelist .num { font-family: var(--f-deco); font-weight: 700; color: var(--gold); width: 26px; text-align: right; font-variant-numeric: tabular-nums; }
+.namelist .nm { flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: 17px; }
+.x { appearance: none; background: none; border: 0; color: var(--muted); font-size: 22px; line-height: 1; width: 36px; height: 36px; cursor: pointer; }
+.x:hover { color: var(--ruby); }
+.counter { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.counter b { font-family: var(--f-display); font-weight: 400; font-size: 28px; color: var(--gold-hi); font-variant-numeric: tabular-nums; }
+
+/* --- composition --- */
+.compo { display: flex; flex-direction: column; }
+.compo-row { display: grid; grid-template-columns: 40px 1fr auto; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.compo-row .glyph { width: 36px; height: 36px; }
+.compo-row .who { min-width: 0; }
+.compo-row .who strong { display: block; font-weight: 600; font-size: 17px; }
+.compo-row .who span { font-size: 13px; }
+.stepper { display: flex; align-items: center; gap: 2px; }
+.stepper button { appearance: none; width: 38px; height: 38px; border: 1px solid var(--line); background: var(--panel-2); color: var(--gold-hi); font-size: 20px; cursor: pointer; }
+.stepper button[disabled] { opacity: .3; cursor: not-allowed; }
+.stepper output { width: 34px; text-align: center; font-family: var(--f-display); font-size: 22px; color: var(--cream); font-variant-numeric: tabular-nums; }
+.status { padding: 10px 14px; border: 1px solid var(--line); font-size: 14px; }
+.status.ok { border-color: var(--jade); color: var(--jade); }
+.status.ko { border-color: var(--ruby); color: var(--ruby); }
+.switch { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+.switch input { appearance: none; width: 50px; height: 28px; border: 1px solid var(--gold); background: var(--panel-2); position: relative; cursor: pointer; flex: none; margin: 0; }
+.switch input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: var(--muted); transition: transform .15s, background .15s; }
+.switch input:checked::after { transform: translateX(22px); background: var(--gold); }
+
+/* --- carte de rôle --- */
+.rolecard {
+  text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 28px 22px 26px;
+  background:
+    repeating-conic-gradient(from -90deg at 50% 0%, color-mix(in srgb, var(--gold) 10%, transparent) 0deg 1.5deg, transparent 1.5deg 10deg),
+    var(--panel);
+}
+.rolecard .glyph { width: 92px; height: 92px; }
+.rolecard h2 { font-family: var(--f-display); font-size: clamp(34px, 10vw, 46px); color: var(--gold-hi); line-height: 1; }
+.rolecard .camp { font-family: var(--f-deco); font-weight: 700; letter-spacing: .3em; text-transform: uppercase; font-size: 13px; }
+.rolecard p { max-width: 36ch; }
+.rolecard .goal { border-top: 1px solid var(--line); padding-top: 12px; font-size: 14px; color: var(--muted); }
+
+/* --- distribution --- */
+.pass { text-align: center; display: flex; flex-direction: column; gap: 18px; align-items: center; padding: 36px 20px; }
+.pass .who { font-family: var(--f-display); font-size: clamp(40px, 12vw, 60px); color: var(--gold-hi); line-height: 1; overflow-wrap: anywhere; }
+.progress { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; }
+.progress i { width: 10px; height: 10px; transform: rotate(45deg); border: 1px solid var(--gold); }
+.progress i.on { background: var(--gold); }
+
+/* --- jeu --- */
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))) calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+  padding: 10px max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
+  background: color-mix(in srgb, var(--ink) 94%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.topbar .head { display: flex; align-items: center; gap: 10px; }
+.topbar .phase { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; }
+.topbar .phase .glyph { width: 30px; height: 30px; }
+.topbar .phase h1 { font-family: var(--f-display); font-size: 28px; color: var(--gold-hi); line-height: 1; }
+.tabs { display: grid; grid-template-columns: 1fr 1fr; }
+.tabs button {
+  appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; padding: 10px 0 12px; cursor: pointer;
+  font-family: var(--f-body); font-weight: 700; letter-spacing: .16em; text-transform: uppercase; font-size: 13px; color: var(--muted);
+}
+.tabs button[aria-selected="true"] { color: var(--gold-hi); border-bottom-color: var(--gold); }
+
+.steps { display: flex; flex-direction: column; gap: 10px; }
+.step { border: 1px solid var(--line); background: var(--panel); }
+.step > .sh {
+  appearance: none; width: 100%; background: none; border: 0; cursor: pointer; text-align: left;
+  display: grid; grid-template-columns: 30px 1fr auto; gap: 12px; align-items: center; padding: 12px 14px;
+}
+.step .sh .glyph { width: 30px; height: 30px; }
+.step .sh strong { font-weight: 600; font-size: 17px; display: block; }
+.step .sh .sum { font-size: 13px; color: var(--muted); display: block; overflow-wrap: anywhere; }
+.step .mark { width: 22px; height: 22px; border: 1px solid var(--line); transform: rotate(45deg); }
+.step.done { opacity: .72; }
+.step.done .mark { background: var(--jade); border-color: var(--jade); }
+.step.current { border-color: var(--gold); }
+.step.current .mark { border-color: var(--gold); }
+.step.later .sh strong { color: var(--muted); }
+.step .sb { padding: 0 14px 16px; display: flex; flex-direction: column; gap: 14px; }
+.step .sb .script { border-left: 2px solid var(--gold); padding-left: 12px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  appearance: none; border: 1px solid var(--line); background: var(--panel-2); color: var(--cream);
+  padding: 9px 14px; min-height: 42px; font-size: 16px; cursor: pointer; max-width: 100%; overflow-wrap: anywhere;
+}
+.chip[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: 600; }
+.chip[disabled] { opacity: .35; cursor: not-allowed; text-decoration: line-through; }
+.chip.fauve { border-color: color-mix(in srgb, var(--ruby) 60%, var(--line)); }
+.note { font-size: 14px; color: var(--muted); }
+.reveal {
+  display: flex; align-items: center; gap: 14px; padding: 14px; border: 1px solid var(--gold);
+  background: var(--panel-2);
+}
+.reveal .glyph { width: 52px; height: 52px; }
+.reveal strong { font-family: var(--f-display); font-weight: 400; font-size: 26px; color: var(--gold-hi); display: block; line-height: 1.1; }
+.verdict { font-family: var(--f-display); font-size: 22px; color: var(--gold-hi); }
+.deaths { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.deaths li { padding: 10px 12px; border-left: 2px solid var(--ruby); background: var(--panel-2); }
+.deaths li b { font-size: 18px; }
+.deaths li span.mini { display: inline-block; }
+.deaths li:not(.dcard) span:not(.mini) { display: block; font-size: 13px; color: var(--muted); }
+
+.summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.summary div { border: 1px solid var(--line); padding: 10px; text-align: center; }
+.summary b { display: block; font-family: var(--f-display); font-weight: 400; font-size: 28px; line-height: 1; font-variant-numeric: tabular-nums; }
+.summary span { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.facts { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; color: var(--muted); }
+.facts b { color: var(--cream); font-weight: 600; }
+
+.ptable { display: flex; flex-direction: column; }
+.prow { border-bottom: 1px solid var(--line); }
+.prow > button {
+  appearance: none; width: 100%; background: none; border: 0; cursor: pointer; text-align: left;
+  display: grid; grid-template-columns: 34px 1fr auto; gap: 12px; align-items: center; padding: 12px 2px;
+}
+.prow .glyph { width: 32px; height: 32px; }
+.prow .pn { min-width: 0; }
+.prow .pn strong { font-size: 17px; font-weight: 600; display: block; overflow-wrap: anywhere; }
+.prow .pn span { font-size: 13px; }
+.prow.dead .pn strong { text-decoration: line-through; color: var(--muted); }
+.prow.dead .glyph { opacity: .4; }
+.badges { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.badge { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; padding: 3px 6px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.badge.mc { border-color: var(--gold); color: var(--gold-hi); }
+.badge.love { border-color: var(--violet); color: var(--violet); }
+.badge.guard { border-color: var(--jade); color: var(--jade); }
+.badge.dead { border-color: var(--ruby); color: var(--ruby); }
+.pact { padding: 0 0 14px 46px; display: flex; flex-wrap: wrap; gap: 8px; }
+.pact .btn { width: auto; flex: 1 1 140px; }
+.log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.log li { display: grid; grid-template-columns: 64px 1fr; gap: 10px; color: var(--muted); }
+.log li b { color: var(--gold); font-weight: 600; font-variant-numeric: tabular-nums; }
+.log li span { color: var(--cream); min-width: 0; overflow-wrap: anywhere; }
+
+.chip { display: inline-flex; align-items: center; gap: 8px; }
+.mini { width: 20px; height: 20px; flex: none; display: inline-block; vertical-align: -4px; margin-right: 6px; }
+.chip .mini { margin-right: 0; }
+.mini svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.chip[aria-pressed="true"] .mini { color: var(--ink); }
+.mayor-name { color: var(--gold-hi); font-weight: 700; text-shadow: 0 0 10px color-mix(in srgb, var(--gold) 35%, transparent); }
+.chip[aria-pressed="true"] .mayor-name { color: var(--ink); text-shadow: none; }
+.heart { color: var(--violet); font-size: 15px; line-height: 1; margin-right: 6px; }
+.chip .heart { margin: 0 0 0 -4px; }
+.chip[aria-pressed="true"] .heart { color: var(--ink); }
+
+.wiz { display: flex; flex-direction: column; gap: 16px; }
+.track { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.tk {
+  appearance: none; width: 44px; height: 44px; display: grid; place-items: center; cursor: pointer;
+  background: var(--panel); border: 1px solid var(--line); color: var(--muted); position: relative;
+}
+.tk .glyph { width: 24px; height: 24px; color: inherit; }
+.tk.done { color: var(--jade); border-color: color-mix(in srgb, var(--jade) 50%, var(--line)); }
+.tk.cur { color: var(--ink); background: var(--gold); border-color: var(--gold); }
+.wcard { display: flex; flex-direction: column; gap: 18px; padding: 22px 18px; }
+.wh { display: flex; align-items: center; gap: 14px; }
+.wh .glyph { width: 56px; height: 56px; }
+.wh > div { min-width: 0; }
+.wh h2 { overflow-wrap: anywhere; font-family: var(--f-display); font-size: clamp(24px, 7vw, 36px); color: var(--gold-hi); line-height: 1.05; }
+.wb { display: flex; flex-direction: column; gap: 16px; }
+.wb .script { border-left: 2px solid var(--gold); padding-left: 12px; font-size: 17px; }
+.wnav { display: flex; gap: 10px; }
+.wnav .btn { flex: 1 1 0; width: auto; letter-spacing: .08em; font-size: 14px; }
+.wnav .btn.back { flex: 0 0 30%; }
+.wnav .btn:only-child { flex: 1 1 100%; }
+
+.seer {
+  display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 22px 12px;
+  border: 2px solid var(--gold); background: repeating-conic-gradient(from -90deg at 50% 0%, color-mix(in srgb, var(--gold) 12%, transparent) 0deg 1.5deg, transparent 1.5deg 10deg), var(--panel-2);
+}
+.seer .glyph { width: 96px; height: 96px; }
+.seer strong { font-family: var(--f-display); font-weight: 400; font-size: clamp(36px, 11vw, 52px); color: var(--gold-hi); line-height: 1; }
+.seer .camp { font-weight: 700; letter-spacing: .28em; text-transform: uppercase; font-size: 14px; }
+.overlay {
+  position: fixed; inset: 0; z-index: 60; background: var(--ink); overflow-y: auto;
+  display: flex; flex-direction: column; justify-content: center; gap: 22px;
+  padding: calc(env(safe-area-inset-top, 0px) + 24px) max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 24px) max(16px, env(safe-area-inset-left, 0px));
+}
+.overlay > * { width: 100%; max-width: 560px; margin-inline: auto; }
+.rolecard.big { padding: 36px 20px; gap: 14px; }
+.rolecard.big .who { font-family: var(--f-deco); font-weight: 700; font-size: clamp(26px, 8vw, 36px); color: var(--cream); overflow-wrap: anywhere; }
+.rolecard.big .glyph { width: 150px; height: 150px; }
+.rolecard.big h2 { font-size: clamp(48px, 15vw, 76px); }
+.rolecard.big .camp { font-size: 16px; }
+
+.deaths li.dcard {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 22px 12px;
+  border: 2px solid var(--ruby);
+  background: repeating-conic-gradient(from -90deg at 50% 0%, color-mix(in srgb, var(--ruby) 12%, transparent) 0deg 1.5deg, transparent 1.5deg 10deg), var(--panel-2);
+}
+.deaths { gap: 14px; }
+.dcard .eyebrow { color: var(--ruby); }
+.dcard .dname { font-family: var(--f-deco); font-weight: 700; font-size: clamp(26px, 8vw, 34px); color: var(--cream); overflow-wrap: anywhere; line-height: 1.1; }
+.dcard .dname .heart { display: inline; font-size: .7em; }
+.dcard .glyph { width: 96px; height: 96px; }
+.dcard strong { font-family: var(--f-display); font-weight: 400; font-size: clamp(36px, 11vw, 52px); color: var(--gold-hi); line-height: 1; }
+.dcard .camp { font-weight: 700; letter-spacing: .28em; text-transform: uppercase; font-size: 14px; }
+.deaths li.dcard .cause { font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 8px; margin-top: 4px; }
+
+.alert { border-color: var(--ruby); }
+.alert .eyebrow { color: var(--ruby); }
+.win { text-align: center; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+.win h2 { font-family: var(--f-display); font-size: clamp(34px, 10vw, 48px); color: var(--gold-hi); line-height: 1; }
+
+.rolelist { display: flex; flex-direction: column; gap: 14px; }
+.rl { display: grid; grid-template-columns: 48px 1fr; gap: 14px; align-items: start; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.rl .glyph { width: 48px; height: 48px; }
+.rl h3 { font-family: var(--f-display); font-size: 24px; color: var(--gold-hi); line-height: 1.1; }
+.rl .camp { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; }
+.rl p { margin-top: 6px; }
+.rl .was { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+.backbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.section-title { display: flex; flex-direction: column; gap: 6px; }
+.section-title h2 { font-family: var(--f-display); font-size: 32px; color: var(--gold-hi); line-height: 1.05; }
+
+/* --- Animations légères --- */
+.btn, .chip, .tk, .tabs button, .stepper button, .iconbtn, .linkbtn { transition: background-color .2s, color .2s, border-color .2s, transform .12s, box-shadow .2s; }
+.seer, .dcard, .rolecard { position: relative; overflow: hidden; }
+.seer::after, .dcard::after, .rolecard::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; transform: translateX(-120%);
+  background: linear-gradient(105deg, transparent 35%, color-mix(in srgb, var(--gold-hi) 22%, transparent) 50%, transparent 65%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root { --ease: cubic-bezier(.2, .75, .2, 1); }
+  .btn:active:not([disabled]), .chip:active:not([disabled]), .tk:active, .stepper button:active:not([disabled]) { transform: scale(.96); }
+  .chip.picked { animation: pop .3s var(--ease); }
+  .fan { animation: spin 300s linear infinite; }
+  .clock .hand-m { transform-box: view-box; transform-origin: 60px 60px; animation: spin 60s linear infinite; }
+  .clock .hand-h { transform-box: view-box; transform-origin: 60px 60px; animation: spin 720s linear infinite; }
+  .tk.cur { animation: glow 2.6s ease-in-out infinite; }
+
+  #app[data-anim="in"] .fade, #app[data-anim="in"] .hero, #app[data-anim="in"] .section-title, #app[data-anim="in"] .wiz .wcard { animation: rise .45s var(--ease) both; }
+  #app[data-anim="in"] .hero h1 { animation: track .9s var(--ease) both; }
+  #app[data-anim="in"] .compo-row, #app[data-anim="in"] .rl, #app[data-anim="in"] .prow { animation: rise .4s var(--ease) both; }
+  #app[data-anim="fwd"] .wcard { animation: slideL .38s var(--ease) both; }
+  #app[data-anim="back"] .wcard { animation: slideR .38s var(--ease) both; }
+  #app:not([data-anim=""]) .track .tk.cur { animation: pop .35s var(--ease), glow 2.6s ease-in-out .35s infinite; }
+  #app:not([data-anim=""]) .pass .who { animation: track .8s var(--ease) both; }
+  #app:not([data-anim=""]) .rolecard:not(.big) { animation: flip .6s var(--ease) both; }
+  #app:not([data-anim=""]) .rolecard:not(.big) .glyph { animation: pop .5s var(--ease) .25s both; }
+  #app:not([data-anim=""]) .overlay { animation: fadein .25s ease both; }
+  #app:not([data-anim=""]) .overlay .rolecard { animation: zoom .5s var(--ease) both; }
+  #app:not([data-anim=""]) .overlay .rolecard .glyph { animation: pop .5s var(--ease) .2s both; }
+  #app:not([data-anim=""]) .seer::after, #app:not([data-anim=""]) .dcard::after, #app:not([data-anim=""]) .rolecard::after { animation: sheen 1.4s ease .35s both; }
+  #app:not([data-anim=""]) .dcard { animation: rise .5s var(--ease) both; }
+  #app:not([data-anim=""]) .dcard:nth-child(2) { animation-delay: .18s; }
+  #app:not([data-anim=""]) .dcard:nth-child(3) { animation-delay: .36s; }
+  #app:not([data-anim=""]) .dcard:nth-child(n+4) { animation-delay: .5s; }
+  #app:not([data-anim=""]) .dcard .glyph, #app:not([data-anim=""]) .seer .glyph { animation: pop .5s var(--ease) .25s both; }
+  #app:not([data-anim=""]) .win h2 { animation: track 1s var(--ease) both; }
+  #app:not([data-anim=""]) .win .glyph { animation: pop .6s var(--ease) .2s both; }
+  #app:not([data-anim=""]) .alert { animation: shake .45s ease both; }
+  #app[data-phase="new"] .topbar .phase .glyph { animation: sunrise .9s var(--ease) both; }
+  #app[data-phase="new"] .topbar .phase h1 { animation: track .8s var(--ease) both; }
+
+  #app[data-anim="in"] :is(.compo-row, .rl, .prow):nth-child(2) { animation-delay: .04s; }
+  #app[data-anim="in"] :is(.compo-row, .rl, .prow):nth-child(3) { animation-delay: .08s; }
+  #app[data-anim="in"] :is(.compo-row, .rl, .prow):nth-child(4) { animation-delay: .12s; }
+  #app[data-anim="in"] :is(.compo-row, .rl, .prow):nth-child(5) { animation-delay: .16s; }
+  #app[data-anim="in"] :is(.compo-row, .rl, .prow):nth-child(6) { animation-delay: .2s; }
+  #app[data-anim="in"] :is(.compo-row, .rl, .prow):nth-child(n+7) { animation-delay: .24s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideL { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+  @keyframes slideR { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+  @keyframes pop { 0% { transform: scale(.85); } 60% { transform: scale(1.06); } 100% { transform: scale(1); } }
+  @keyframes zoom { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+  @keyframes flip { from { opacity: 0; transform: perspective(900px) rotateY(-70deg); } to { opacity: 1; transform: none; } }
+  @keyframes track { from { opacity: 0; letter-spacing: .25em; } to { opacity: 1; } }
+  @keyframes sheen { from { transform: translateX(-120%); } to { transform: translateX(120%); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes glow { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold) 0%, transparent); } 50% { box-shadow: 0 0 14px 1px color-mix(in srgb, var(--gold) 45%, transparent); } }
+  @keyframes sunrise { from { opacity: 0; transform: translateY(12px) rotate(-25deg); } to { opacity: 1; transform: none; } }
+  @keyframes shake { 0% { opacity: 0; transform: translateY(8px); } 50% { opacity: 1; transform: translateX(-4px); } 70% { transform: translateX(3px); } 100% { transform: none; } }
+}
+</style>
+
+<div class="fan" aria-hidden="true"></div>
+<main id="app" aria-live="polite"></main>
+
+<script>
+(() => {
+"use strict";
+
+/* ================= Données ================= */
+const G = {
+  fauve: '<path d="M5 23c6-7 13-7 16 0-3 5-11 5-16 0z"/><path d="M43 23c-6-7-13-7-16 0 3 5 11 5 16 0z"/><path d="M13 20v6M35 20v6"/><path d="M6 13l14 5M42 13l-14 5"/><path d="M20 34l4 5 4-5"/>',
+  invite: '<path d="M10 11h28c0 9-6 14-14 14s-14-5-14-14z"/><path d="M24 25v14M15 40h18"/><path d="M19 4l2 3M28 3v4M33 5l-2 3"/>',
+  cartomancienne: '<path d="M24 3l21 21-21 21L3 24z"/><path d="M11 24c7-8 19-8 26 0-7 8-19 8-26 0z"/><circle cx="24" cy="24" r="3.5"/>',
+  barmaid: '<path d="M20 3h8v9c0 2.5 7 5 7 12v18a2 2 0 0 1-2 2H15a2 2 0 0 1-2-2V24c0-7 7-9.5 7-12z"/><path d="M20 7h8"/><path d="M13 27h22v10H13z"/><path d="M21 32h6"/>',
+  gangster: '<path d="M3 31c9 5 33 5 42 0"/><path d="M10 31c0-11 4-17 8-17 3 0 4 3 6 3s3-3 6-3c4 0 8 6 8 17"/><path d="M11 26c8 2.5 18 2.5 26 0"/>',
+  crooner: '<rect x="17" y="3" width="14" height="21" rx="7"/><path d="M17 11h14M17 16h14"/><path d="M11 20c0 8 6 12 13 12s13-4 13-12"/><path d="M24 32v10M16 43h16"/>',
+  portier: '<circle cx="14" cy="24" r="9"/><circle cx="14" cy="24" r="3.5"/><path d="M23 24h22M37 24v8M43 24v6"/>',
+  groom: '<path d="M8 3h32v42H8z"/><circle cx="24" cy="18" r="6"/><path d="M21 23l-4 15h14l-4-15"/>',
+  mc: '<path d="M16 3l8 13 8-13"/><circle cx="24" cy="29" r="12"/><path d="M24 22l2.2 4.6 5 .6-3.7 3.4 1 5-4.5-2.5-4.5 2.5 1-5-3.7-3.4 5-.6z"/>',
+  moon: '<path d="M30 6a18 18 0 1 0 12 30A15 15 0 0 1 30 6z"/><path d="M38 8l1.5 3 3 1.5-3 1.5L38 17l-1.5-3-3-1.5 3-1.5z"/>',
+  sun: '<circle cx="24" cy="30" r="9"/><path d="M4 39h40M24 6v8M10 16l5 5M38 16l-5 5M4 30h6M38 30h6"/>',
+  dawn: '<path d="M4 34h40M10 40h28"/><path d="M12 34a12 12 0 0 1 24 0"/><path d="M24 8v8M9 16l5 5M39 16l-5 5"/>',
+  eye: '<path d="M3 24c6-9 14-13 21-13s15 4 21 13c-6 9-14 13-21 13S9 33 3 24z"/><circle cx="24" cy="24" r="6"/>',
+  eyeoff: '<path d="M3 24c6-9 14-13 21-13s15 4 21 13c-6 9-14 13-21 13S9 33 3 24z"/><path d="M6 6l36 36"/>',
+  home: '<path d="M6 22L24 6l18 16"/><path d="M11 18v24h26V18"/><path d="M20 42V30h8v12"/>',
+  vote: '<path d="M8 22h32v20H8z"/><path d="M18 22l-6-12 12-6 8 18"/><path d="M18 32h12"/>',
+};
+const glyph = (k, cls = "") => `<span class="glyph ${cls}" aria-hidden="true"><svg viewBox="0 0 48 48">${G[k] || ""}</svg></span>`;
+
+const ROLES = {
+  fauve: { name: "Fauve", plural: "Fauves", camp: "fauves", multi: true, was: "Loup-garou",
+    desc: "Chaque nuit, les Fauves se réveillent ensemble et choisissent une victime. Le jour, ils se font passer pour d'honnêtes invités.",
+    goal: "Objectif : éliminer tous les invités du Palace." },
+  invite: { name: "Invité", plural: "Invités", camp: "palace", multi: true, was: "Villageois",
+    desc: "Aucun pouvoir, sinon ta voix et ton flair. Observe, débats et vote pour démasquer les Fauves.",
+    goal: "Objectif : éliminer tous les Fauves." },
+  cartomancienne: { name: "Cartomancienne", camp: "palace", was: "Voyante",
+    desc: "Chaque nuit, tu désignes un joueur et le maître du jeu te montre son rôle.",
+    goal: "Objectif : éliminer tous les Fauves." },
+  barmaid: { name: "Barmaid", camp: "palace", was: "Sorcière",
+    desc: "Tu as deux cocktails, chacun utilisable une seule fois : le Remontant sauve la victime des Fauves, le Cocktail fatal élimine le joueur de ton choix.",
+    goal: "Objectif : éliminer tous les Fauves." },
+  gangster: { name: "Gangster", camp: "palace", was: "Chasseur",
+    desc: "Quand tu meurs, de nuit comme de jour, tu dégaines et tu élimines immédiatement le joueur de ton choix.",
+    goal: "Objectif : éliminer tous les Fauves." },
+  crooner: { name: "Chanteuse de jazz", camp: "palace", was: "Cupidon",
+    desc: "La première nuit, ta chanson rend deux joueurs amoureux. Si l'un meurt, l'autre meurt de chagrin. S'ils sont de camps opposés, ils gagnent seuls en étant les derniers survivants.",
+    goal: "Objectif : éliminer tous les Fauves." },
+  portier: { name: "Portier", camp: "palace", was: "Garde (Salvateur)",
+    desc: "Chaque nuit, tu gardes la porte d'un joueur, toi compris : les Fauves ne peuvent pas le tuer cette nuit. Jamais deux nuits de suite la même porte.",
+    goal: "Objectif : éliminer tous les Fauves." },
+  groom: { name: "Groom", camp: "palace", was: "Petite fille",
+    desc: "Pendant que les Fauves choisissent leur victime, tu peux entrouvrir les yeux pour les espionner. Mais s'ils te surprennent…",
+    goal: "Objectif : éliminer tous les Fauves." },
+};
+const ORDER = ["fauve", "invite", "cartomancienne", "barmaid", "gangster", "crooner", "portier", "groom"];
+const CAMPNAME = { fauves: "Les Fauves", palace: "Le Palace" };
+const CAUSE = {
+  fauves: "dévoré·e par les Fauves", cocktail: "empoisonné·e par la Barmaid", chagrin: "mort·e de chagrin",
+  gangster: "abattu·e par le Gangster", vote: "éliminé·e par le vote", mj: "retiré·e par le maître du jeu",
+};
+const EXAMPLE = ["Alice", "Bastien", "Camille", "Dimitri", "Élise", "Félix", "Gabrielle", "Hugo"];
+const MIN = 6, MAX = 18;
+
+/* ================= Stockage ================= */
+const KEY = "palace.game.v1", NAMES = "palace.names.v1";
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k); } catch (e) {} },
+};
+
+let S = store.get(KEY);          // partie en cours
+const savedNames = store.get(NAMES);
+const UI = {
+  screen: "home", tab: "flow", open: null, openStep: null, confirmNew: false, hideRoles: false,
+  names: Array.isArray(savedNames) && savedNames.length ? savedNames : EXAMPLE.slice(),
+  example: !(Array.isArray(savedNames) && savedNames.length),
+  compo: null, reveal: true, nameError: "",
+};
+const save = () => { if (S) store.set(KEY, S); };
+
+/* ================= Utilitaires ================= */
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const byId = id => S.players.find(p => p.id === id);
+const alive = () => S.players.filter(p => p.alive);
+const hasAlive = r => S.players.some(p => p.alive && p.role === r);
+const campOf = p => ROLES[p.role].camp;
+const nm = id => { const p = id == null ? null : byId(id); return p ? esc(p.name) : "—"; };
+function rand(n) { try { const a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; } catch (e) { return Math.floor(Math.random() * n); } }
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = rand(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function phaseLabel() { return S.cycle.type === "night" ? `Nuit ${S.cycle.n}` : `Jour ${S.cycle.n}`; }
+function log(t) { S.log.unshift({ at: phaseLabel(), t }); }
+
+function suggest(n) {
+  const c = Object.fromEntries(ORDER.map(r => [r, 0]));
+  c.fauve = n < 12 ? 2 : n < 18 ? 3 : 4;
+  const specials = ["cartomancienne", "barmaid", "gangster", "crooner", "portier", "groom"];
+  const unlock = { cartomancienne: 6, barmaid: 6, gangster: 7, crooner: 8, portier: 9, groom: 10 };
+  specials.forEach(r => { if (n >= unlock[r]) c[r] = 1; });
+  const used = Object.values(c).reduce((a, b) => a + b, 0);
+  c.invite = Math.max(0, n - used);
+  return c;
+}
+const total = c => Object.values(c).reduce((a, b) => a + b, 0);
+
+/* ================= Logique de jeu ================= */
+function newGame() {
+  const roles = [];
+  ORDER.forEach(r => { for (let i = 0; i < UI.compo[r]; i++) roles.push(r); });
+  shuffle(roles);
+  S = {
+    players: UI.names.map((name, i) => ({ id: i, name, role: roles[i], alive: true, lover: false, mayor: false, cause: null })),
+    options: { reveal: UI.reveal },
+    distrib: { i: 0, shown: false, done: false },
+    cycle: { type: "night", n: 1 },
+    potions: { life: true, death: true },
+    lastProtect: null, pending: [], log: [], winner: null, winnerSeen: false, night: null, day: null,
+  };
+  startNight(1);
+  S.log = [];
+  log("Les rôles sont distribués.");
+  save();
+}
+function startNight(n) {
+  S.cycle = { type: "night", n };
+  S.night = { n, done: {}, lovers: [], protect: null, carto: null, victim: null, save: false, poison: null };
+  S.day = null;
+  UI.openStep = null;
+}
+function nightSteps() {
+  const n = S.night.n, st = [];
+  if (n === 1 && hasAlive("crooner")) st.push("crooner", "amoureux");
+  if (hasAlive("portier")) st.push("portier");
+  if (hasAlive("cartomancienne")) st.push("cartomancienne");
+  if (hasAlive("fauve")) st.push("fauves");
+  if (hasAlive("barmaid") && (S.potions.life || S.potions.death)) st.push("barmaid");
+  st.push("aube");
+  return st;
+}
+function kill(id, cause) {
+  const p = byId(id);
+  if (!p || !p.alive) return [];
+  p.alive = false; p.cause = cause;
+  const out = [{ id, cause }];
+  log(`${p.name} est ${CAUSE[cause]} (${ROLES[p.role].name}).`);
+  if (p.role === "gangster") S.pending.push({ type: "gangster", from: id });
+  if (p.mayor) { p.mayor = false; S.pending.push({ type: "successor", from: id }); }
+  if (p.lover) {
+    const o = S.players.find(q => q.lover && q.id !== id && q.alive);
+    if (o) out.push(...kill(o.id, "chagrin"));
+  }
+  return out;
+}
+function nightDeaths() {
+  const N = S.night, d = [];
+  if (N.victim != null && N.victim !== N.protect && !N.save) d.push([N.victim, "fauves"]);
+  if (N.poison != null && !d.some(x => x[0] === N.poison)) d.push([N.poison, "cocktail"]);
+  return d;
+}
+function dawn() {
+  const N = S.night;
+  if (N.save) { S.potions.life = false; log(`La Barmaid sert son Remontant à ${byId(N.victim).name}.`); }
+  if (N.poison != null) S.potions.death = false;
+  if (N.protect != null) log(`Le Portier garde la porte de ${byId(N.protect).name}.`);
+  if (N.victim != null && N.victim === N.protect) log(`Les Fauves attaquent ${byId(N.victim).name}, mais la porte est gardée.`);
+  S.lastProtect = N.protect;
+  const killed = [];
+  nightDeaths().forEach(([id, c]) => killed.push(...kill(id, c)));
+  if (!killed.length) log("Personne n'est mort cette nuit.");
+  S.cycle = { type: "day", n: N.n };
+  S.day = { n: N.n, announce: killed, vote: null, voted: false, voteOut: [], idx: 0, mayorStep: !S.players.some(p => p.mayor && p.alive) };
+  checkWin();
+  UI.tab = "flow";
+}
+function winner() {
+  const a = alive();
+  if (!a.length) return "none";
+  const lovers = S.players.filter(p => p.lover);
+  if (lovers.length === 2 && lovers.every(p => p.alive) && campOf(lovers[0]) !== campOf(lovers[1]) && a.length === 2) return "lovers";
+  const f = a.filter(p => campOf(p) === "fauves").length;
+  if (f === 0) return "palace";
+  if (f === a.length) return "fauves";
+  return null;
+}
+function checkWin() {
+  // Pas de passation du titre si la partie est déjà gagnée
+  if (winner()) S.pending = S.pending.filter(P => P.type !== "successor");
+  if (S.pending.length) return;
+  const w = winner();
+  if (w && w !== S.winner) { S.winner = w; S.winnerSeen = false; log(WIN[w].title); }
+  if (!w) S.winner = null;
+}
+const WIN = {
+  palace: { title: "Victoire du Palace", text: "Tous les Fauves ont été démasqués. Les invités peuvent danser jusqu'à l'aube." },
+  fauves: { title: "Victoire des Fauves", text: "Il ne reste plus un seul invité. Les Fauves règnent sur le Palace." },
+  lovers: { title: "Victoire des Amoureux", text: "Les deux amoureux, de camps opposés, sont les derniers debout." },
+  none: { title: "Aucun survivant", text: "Le Palace est vide. Personne ne remporte la partie." },
+};
+
+/* ================= Rendu ================= */
+const $app = document.getElementById("app");
+/* Les animations ne se jouent que lorsqu'on change d'écran ou d'étape, pas à chaque toucher */
+let lastKey = null, lastStep = null, lastPhase = null;
+function viewKey() {
+  if (UI.screen === "distrib") return `distrib-${S.distrib.i}-${S.distrib.shown}`;
+  if (UI.screen !== "game") return UI.screen;
+  const T = S.cycle.type === "night" ? S.night : S.day;
+  return [UI.tab, S.cycle.type, S.cycle.n, T && T.idx || 0, S.day && S.day.voted ? 1 : 0, S.pending.length, S.pending[0] && S.pending[0].shown ? 1 : 0,
+    UI.cartoShow ? 1 : 0, S.winner && !S.winnerSeen ? 1 : 0].join("-");
+}
+function render() {
+  const fn = { home: vHome, rules: vRules, names: vNames, compo: vCompo, distrib: vDistrib, game: vGame }[UI.screen] || vHome;
+  const key = viewKey();
+  let anim = "";
+  if (key !== lastKey) {
+    anim = "in";
+    if (UI.screen === "game" && UI.tab === "flow") {
+      const phase = `${S.cycle.type}${S.cycle.n}`, T = S.cycle.type === "night" ? S.night : S.day, step = T && T.idx || 0;
+      if (phase === lastPhase && step !== lastStep) anim = step > lastStep ? "fwd" : "back";
+      $app.dataset.phase = phase !== lastPhase && lastPhase ? "new" : "";
+      lastPhase = phase; lastStep = step;
+    } else $app.dataset.phase = "";
+  }
+  $app.dataset.anim = anim;
+  lastKey = key;
+  $app.innerHTML = fn();
+  UI.justPicked = null;
+  const inp = document.getElementById("newname");
+  if (inp && UI.focusName) { inp.focus(); UI.focusName = false; }
+}
+
+function vHome() {
+  const inGame = S && !S.ended;
+  return `
+  <section class="hero fade">
+    <div class="clock" aria-hidden="true"><svg viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="56"/><circle cx="60" cy="60" r="48"/>
+      ${Array.from({ length: 12 }, (_, i) => { const a = i * Math.PI / 6; const r1 = i % 3 ? 42 : 36; return `<line x1="${60 + Math.sin(a) * r1}" y1="${60 - Math.cos(a) * r1}" x2="${60 + Math.sin(a) * 46}" y2="${60 - Math.cos(a) * 46}"/>`; }).join("")}
+      <path class="hand-h" d="M60 60l-3-26M60 60l3-26M60 60V30" /><path class="hand-m" d="M60 60V16" /><circle cx="60" cy="60" r="3" fill="currentColor"/>
+    </svg></div>
+    <h1><small>Les années folles</small>Minuit au Palace</h1>
+    <p class="muted">Des Fauves se sont glissés parmi les invités du grand hôtel. Un jeu de rôles cachés pour 6 à 18 joueurs, animé par le maître du jeu sur un seul téléphone.</p>
+  </section>
+  <div class="rule" aria-hidden="true"><span></span></div>
+  <div class="stack">
+    ${inGame ? `<button class="btn primary" data-a="resume">Reprendre la partie · ${S.distrib.done ? phaseLabel() : "distribution"}</button>` : ""}
+    ${UI.confirmNew ? `
+      <div class="frame stack">
+        <p>Une partie est en cours. La remplacer par une nouvelle ?</p>
+        <div class="row"><button class="btn danger" data-a="newgame-force">Oui, nouvelle partie</button><button class="btn" data-a="cancel-new">Annuler</button></div>
+      </div>` : `<button class="btn ${inGame ? "" : "primary"}" data-a="newgame">Nouvelle partie</button>`}
+    <button class="btn" data-a="go" data-to="rules">Les personnages</button>
+  </div>`;
+}
+
+function roleBlock(r) {
+  const R = ROLES[r];
+  return `<div class="rl">${glyph(r, "camp-" + R.camp)}<div>
+    <h3>${R.multi ? R.plural : (r === "cartomancienne" || r === "barmaid" || r === "crooner" ? "La " : "Le ") + R.name}</h3>
+    <div class="camp camp-${R.camp}">${CAMPNAME[R.camp]}</div>
+    <p>${R.desc}</p>
+  </div></div>`;
+}
+function vRules() {
+  return `
+  <div class="backbar"><button class="linkbtn" data-a="go" data-to="home">← Accueil</button></div>
+  <div class="section-title"><span class="eyebrow">Le Palace</span><h2>Les personnages</h2></div>
+  <div class="rolelist">
+    ${ORDER.map(roleBlock).join("")}
+    <div class="rl">${glyph("mc")}<div>
+      <h3>Le Maître de cérémonie</h3>
+      <div class="camp muted">Titre élu, en plus du rôle</div>
+      <p>Élu par tous le premier jour. Sa voix compte double lors des votes. À sa mort, il désigne son successeur.</p>
+    </div></div>
+  </div>
+  <div class="frame stack">
+    <span class="eyebrow">Déroulement</span>
+    <p><b>La nuit</b>, le Palace s'endort. Le maître du jeu réveille les personnages un à un dans l'ordre affiché par l'appli.</p>
+    <p><b>Le jour</b>, il annonce les victimes. Les joueurs débattent puis votent pour éliminer un suspect.</p>
+    <p>Le Palace gagne quand tous les Fauves sont éliminés. Les Fauves gagnent quand il ne reste plus d'invités.</p>
+  </div>`;
+}
+
+function vNames() {
+  const n = UI.names.length, ok = n >= MIN && n <= MAX;
+  return `
+  <div class="backbar"><button class="linkbtn" data-a="go" data-to="home">← Accueil</button>
+    ${n ? `<button class="linkbtn" data-a="clear-names">Vider la liste</button>` : ""}</div>
+  <div class="section-title"><span class="eyebrow">Étape 1 sur 3</span><h2>Les invités</h2>
+    <p class="muted small">Entrez les prénoms dans l'ordre où les joueurs sont assis. Le téléphone circulera dans cet ordre pour la distribution des rôles.</p></div>
+  <form class="addform" id="addform" autocomplete="off">
+    <input id="newname" name="newname" type="text" placeholder="Prénom du joueur" maxlength="24" aria-label="Prénom du joueur" ${n >= MAX ? "disabled" : ""}>
+    <button class="btn primary" type="submit" ${n >= MAX ? "disabled" : ""}>Ajouter</button>
+  </form>
+  ${UI.nameError ? `<p class="status ko">${esc(UI.nameError)}</p>` : ""}
+  ${UI.example ? `<p class="note">Liste d'exemple. Videz-la ou retirez les prénoms pour entrer les vôtres.</p>` : ""}
+  <ol class="namelist">
+    ${UI.names.map((x, i) => `<li><span class="num">${i + 1}</span><span class="nm">${esc(x)}</span>
+      <button class="x" data-a="rm-name" data-i="${i}" aria-label="Retirer ${esc(x)}">×</button></li>`).join("")}
+  </ol>
+  <div class="counter"><span class="muted">${ok ? "Prêt pour la composition" : n < MIN ? `Encore ${MIN - n} joueur${MIN - n > 1 ? "s" : ""} minimum` : "18 joueurs maximum"}</span><b>${n}</b></div>
+  <button class="btn primary" data-a="to-compo" ${ok ? "" : "disabled"}>Choisir les rôles</button>`;
+}
+
+function compoCheck(c, n) {
+  const t = total(c);
+  if (t !== n) return { ok: false, msg: t < n ? `Il manque ${n - t} rôle${n - t > 1 ? "s" : ""} pour ${n} joueurs.` : `${t - n} rôle${t - n > 1 ? "s" : ""} en trop pour ${n} joueurs.` };
+  if (c.fauve < 1) return { ok: false, msg: "Il faut au moins un Fauve." };
+  if (c.fauve >= n - c.fauve) return { ok: false, msg: "Trop de Fauves : ils doivent être moins nombreux que le Palace." };
+  return { ok: true, msg: `${n} rôles pour ${n} joueurs : ${c.fauve} Fauve${c.fauve > 1 ? "s" : ""} contre ${n - c.fauve} membres du Palace.` };
+}
+function vCompo() {
+  const n = UI.names.length, c = UI.compo, chk = compoCheck(c, n);
+  return `
+  <div class="backbar"><button class="linkbtn" data-a="go" data-to="names">← Invités</button>
+    <button class="linkbtn" data-a="suggest">Composition conseillée</button></div>
+  <div class="section-title"><span class="eyebrow">Étape 2 sur 3</span><h2>La distribution</h2>
+    <p class="muted small">Une composition équilibrée est proposée pour ${n} joueurs. Ajustez-la à votre goût.</p></div>
+  <div class="compo">
+    ${ORDER.map(r => { const R = ROLES[r], v = c[r], max = R.multi ? n : 1; return `
+      <div class="compo-row">${glyph(r, "camp-" + R.camp)}
+        <div class="who"><strong>${R.multi ? R.plural : R.name}</strong><span class="camp-${R.camp}">${CAMPNAME[R.camp]}</span></div>
+        <div class="stepper">
+          <button data-a="dec" data-r="${r}" aria-label="Retirer un ${R.name}" ${v <= 0 ? "disabled" : ""}>−</button>
+          <output aria-live="polite">${v}</output>
+          <button data-a="inc" data-r="${r}" aria-label="Ajouter un ${R.name}" ${v >= max ? "disabled" : ""}>+</button>
+        </div></div>`; }).join("")}
+  </div>
+  <p class="status ${chk.ok ? "ok" : "ko"}">${chk.msg}</p>
+  <label class="switch" for="reveal"><span><b>Révéler le rôle des morts</b><br><span class="muted small">Le maître du jeu annonce le rôle de chaque joueur éliminé.</span></span>
+    <input type="checkbox" id="reveal" ${UI.reveal ? "checked" : ""}></label>
+  <button class="btn primary" data-a="start-distrib" ${chk.ok ? "" : "disabled"}>Distribuer les rôles</button>`;
+}
+
+function roleCard(r) {
+  const R = ROLES[r];
+  return `<div class="frame rolecard fade">
+    <span class="eyebrow">Ton rôle</span>
+    ${glyph(r, "camp-" + R.camp)}
+    <h2>${R.name}</h2>
+    <span class="camp camp-${R.camp}">${CAMPNAME[R.camp]}</span>
+    <p>${R.desc}</p>
+    <p class="goal">${R.goal}</p>
+  </div>`;
+}
+function vDistrib() {
+  const d = S.distrib, n = S.players.length;
+  const prog = `<div class="progress" aria-label="${d.i} sur ${n}">${S.players.map((_, i) => `<i class="${i < d.i ? "on" : ""}"></i>`).join("")}</div>`;
+  if (d.i >= n) return `
+    <div class="section-title"><span class="eyebrow">Étape 3 sur 3</span><h2>Cartes distribuées</h2></div>
+    ${prog}
+    <div class="frame pass">${glyph("moon")}
+      <p>Tous les joueurs connaissent leur rôle. Rendez le téléphone au maître du jeu.</p></div>
+    <button class="btn primary" data-a="begin">Le Palace s'endort · Nuit 1</button>`;
+  const p = S.players[d.i];
+  if (!d.shown) return `
+    <div class="section-title"><span class="eyebrow">Joueur ${d.i + 1} sur ${n}</span></div>
+    ${prog}
+    <div class="frame pass">
+      <span class="eyebrow">Passez le téléphone à</span>
+      <div class="who">${esc(p.name)}</div>
+      <p class="muted">Personne d'autre ne doit regarder l'écran.</p>
+    </div>
+    <button class="btn primary" data-a="show-role">Je suis ${esc(p.name)} · voir mon rôle</button>
+    ${d.i > 0 ? `<button class="linkbtn" data-a="prev-player">← Revenir au joueur précédent</button>` : ""}`;
+  return `
+    <div class="section-title"><span class="eyebrow">${esc(p.name)}</span></div>
+    ${roleCard(p.role)}
+    <button class="btn primary" data-a="hide-role">C'est mémorisé · cacher</button>`;
+}
+
+/* ---------- Jeu ---------- */
+function mini(p) {
+  if (UI.hideRoles) return "";
+  return `<span class="mini camp-${campOf(p)}" title="${ROLES[p.role].name}" aria-hidden="true"><svg viewBox="0 0 48 48">${G[p.role]}</svg></span>`
+    + (p.lover ? `<span class="heart" title="Amoureux" aria-hidden="true">♥</span>` : "");
+}
+function chips(kind, { sel = [], disabled = () => false, filter = () => true } = {}) {
+  return `<div class="chips">${alive().filter(filter).map(p => {
+    const dis = disabled(p);
+    return `<button class="chip ${campOf(p) === "fauves" && !UI.hideRoles ? "fauve" : ""} ${UI.justPicked === kind + p.id ? "picked" : ""}" data-a="pick" data-k="${kind}" data-p="${p.id}"
+      aria-pressed="${sel.includes(p.id)}" ${dis ? "disabled" : ""} aria-label="${esc(p.name)}${UI.hideRoles ? "" : ", " + ROLES[p.role].name}">${mini(p)}<span class="${p.mayor ? "mayor-name" : ""}">${esc(p.name)}</span></button>`;
+  }).join("")}</div>`;
+}
+const fauveNames = () => S.players.filter(p => p.alive && p.role === "fauve").map(p => esc(p.name)).join(", ");
+
+const STEPS = {
+  crooner: {
+    g: "crooner", t: "La Chanteuse de jazz",
+    sum: N => N.lovers.length === 2 ? `${nm(N.lovers[0])} ♥ ${nm(N.lovers[1])}` : "Désigne deux amoureux",
+    body: N => `<p class="script">« La Chanteuse de jazz se réveille et désigne deux joueurs qui tomberont amoureux. »</p>
+      ${chips("lovers", { sel: N.lovers })}
+      <p class="note">${N.lovers.length}/2 sélectionnés. La Chanteuse peut se choisir elle-même.</p>`,
+    ready: N => N.lovers.length === 2,
+  },
+  amoureux: {
+    g: "crooner", t: "Les Amoureux",
+    sum: N => "Se reconnaissent",
+    body: N => `<p class="script">« La Chanteuse se rendort. Je touche l'épaule des deux amoureux : ils se réveillent, se reconnaissent, puis se rendorment. »</p>
+      <p class="note">Amoureux : <b>${N.lovers.length === 2 ? `${nm(N.lovers[0])} et ${nm(N.lovers[1])}` : "à désigner par la Chanteuse"}</b></p>`,
+    ready: () => true,
+  },
+  portier: {
+    g: "portier", t: "Le Portier",
+    sum: N => N.protect != null ? `Garde ${nm(N.protect)}` : "Garde une porte",
+    body: N => `<p class="script">« Le Portier se réveille et désigne la porte qu'il garde cette nuit. »</p>
+      ${chips("protect", { sel: [N.protect], disabled: p => p.id === S.lastProtect })}
+      ${S.lastProtect != null && byId(S.lastProtect).alive ? `<p class="note">${nm(S.lastProtect)} a déjà été gardé·e la nuit dernière.</p>` : ""}`,
+    ready: () => true,
+  },
+  cartomancienne: {
+    g: "cartomancienne", t: "La Cartomancienne",
+    sum: N => N.carto != null ? `A lu les cartes de ${nm(N.carto)}` : "Lit les cartes d'un joueur",
+    body: N => {
+      const t = N.carto != null ? byId(N.carto) : null;
+      return `<p class="script">« La Cartomancienne se réveille et désigne le joueur dont elle veut connaître le rôle. »</p>
+      ${chips("carto", { sel: [N.carto], filter: p => p.role !== "cartomancienne" })}
+      ${t ? `<div class="seer">
+          <span class="eyebrow">Montrez l'écran · ${esc(t.name)} est</span>
+          ${glyph(t.role, "camp-" + campOf(t))}
+          <strong>${ROLES[t.role].name}</strong>
+          <span class="camp camp-${campOf(t)}">${CAMPNAME[campOf(t)]}</span>
+        </div>
+        <button class="btn" data-a="carto-open">Afficher en plein écran</button>` : `<p class="note">Dès que vous touchez un nom, son rôle s'affiche en plein écran.</p>`}`;
+    },
+    ready: () => true,
+  },
+  fauves: {
+    g: "fauve", t: "Les Fauves",
+    sum: N => N.victim != null ? `Victime : ${nm(N.victim)}` : "Choisissent une victime",
+    body: N => `<p class="script">« Les Fauves se réveillent${N.n === 1 ? ", se reconnaissent" : ""} et désignent ensemble leur victime. »</p>
+      ${UI.hideRoles ? "" : `<p class="note">Fauves en vie : <b>${fauveNames()}</b></p>`}
+      ${hasAlive("groom") ? `<p class="note">Le Groom peut entrouvrir les yeux pour espionner.</p>` : ""}
+      ${chips("victim", { sel: [N.victim], filter: p => p.role !== "fauve" })}`,
+    ready: N => N.victim != null,
+  },
+  barmaid: {
+    g: "barmaid", t: "La Barmaid",
+    sum: N => [N.save ? "Remontant servi" : "", N.poison != null ? `Cocktail fatal : ${nm(N.poison)}` : ""].filter(Boolean).join(" · ") || "Peut servir ses cocktails",
+    body: N => {
+      const v = N.victim;
+      return `<p class="script">« La Barmaid se réveille. Voici la victime des Fauves. Veut-elle la sauver ? Veut-elle empoisonner quelqu'un ? »</p>
+      <div class="reveal">${glyph("fauve", "camp-fauves")}<div><span class="eyebrow">Montrez la victime</span><strong>${v != null ? mini(byId(v)) + nm(v) : "Aucune"}</strong>
+        ${v != null && v === N.protect ? `<span class="note">Porte gardée : elle survivra de toute façon.</span>` : ""}</div></div>
+      <div class="row">
+        <button class="btn ${N.save ? "primary" : ""}" data-a="toggle-save" ${S.potions.life && v != null ? "" : "disabled"}>
+          ${S.potions.life ? (N.save ? "Remontant servi ✓" : "Servir le Remontant") : "Remontant déjà bu"}</button>
+      </div>
+      ${S.potions.death ? `<span class="eyebrow">Cocktail fatal</span>${chips("poison", { sel: [N.poison], filter: p => p.role !== "barmaid" })}` : `<p class="note">Le Cocktail fatal a déjà été servi.</p>`}`;
+    },
+    ready: () => true,
+  },
+  aube: {
+    g: "dawn", t: "L'aube",
+    sum: () => "Bilan de la nuit",
+    body: N => {
+      const d = nightDeaths();
+      const chain = [];
+      d.forEach(([id]) => { const p = byId(id); if (p.lover) { const o = S.players.find(q => q.lover && q.id !== id && q.alive); if (o && !d.some(x => x[0] === o.id)) chain.push(o.id); } });
+      return `<p class="script">« Tout le monde se rendort… »</p>
+      ${d.length ? `<ul class="deaths">${d.map(([id, c]) => `<li><b>${mini(byId(id))}${nm(id)}</b><span>${CAUSE[c]}</span></li>`).join("")}
+        ${chain.map(id => `<li><b>${mini(byId(id))}${nm(id)}</b><span>${CAUSE.chagrin}</span></li>`).join("")}</ul>`
+        : `<p class="verdict">Personne ne meurt cette nuit.</p>`}
+      ${N.victim != null && N.victim === N.protect ? `<p class="note">${nm(N.victim)} a été sauvé·e par le Portier.</p>` : ""}
+      ${N.save ? `<p class="note">${nm(N.victim)} a été sauvé·e par le Remontant.</p>` : ""}
+      <button class="btn primary" data-a="dawn">Le Palace se réveille · Jour ${N.n}</button>`;
+    },
+    ready: () => true,
+  },
+};
+
+const SLEEP = {
+  crooner: "La Chanteuse se rendort", amoureux: "Les Amoureux se rendorment", portier: "Le Portier se rendort",
+  cartomancienne: "La Cartomancienne se rendort", fauves: "Les Fauves se rendorment", barmaid: "La Barmaid se rendort",
+};
+
+/* Assistant pas à pas : une seule étape affichée à la fois */
+function wizard(list, i, body, nav) {
+  const cur = list[i];
+  return `<div class="wiz">
+    <nav class="track" aria-label="Étapes">
+      ${list.map((x, k) => `<button class="tk ${k === i ? "cur" : x.done ? "done" : ""}" data-a="wiz-go" data-i="${k}" aria-label="${esc(x.t)}" ${k === i ? 'aria-current="step"' : ""}>${glyph(x.g)}</button>`).join("")}
+    </nav>
+    <section class="frame wcard fade" aria-labelledby="wtitle">
+      <header class="wh">${glyph(cur.g)}<div><span class="eyebrow">Étape ${i + 1} sur ${list.length}</span><h2 id="wtitle">${cur.t}</h2></div></header>
+      ${body}
+    </section>
+    <div class="wnav">${nav}</div>
+  </div>`;
+}
+
+function vNight() {
+  const N = S.night, st = nightSteps();
+  const i = Math.min(N.idx || 0, st.length - 1), s = st[i], D = STEPS[s];
+  const list = st.map(x => ({ g: STEPS[x].g, t: STEPS[x].t, done: !!N.done[x] }));
+  const prev = i > 0 ? `<button class="btn back" data-a="wiz-go" data-i="${i - 1}" aria-label="Étape précédente">Retour</button>` : "";
+  const next = s === "aube" ? "" : `<button class="btn primary" data-a="step-done" data-s="${s}" data-i="${i}" ${D.ready(N) ? "" : "disabled"}>${SLEEP[s]}</button>`;
+  return wizard(list, i, `<div class="wb">${D.body(N)}</div>`, prev + next);
+}
+
+function deathLine(e) {
+  const p = byId(e.id), R = ROLES[p.role];
+  const heart = p.lover && !UI.hideRoles ? ` <span class="heart">♥</span>` : "";
+  return `<li class="dcard">
+    <span class="eyebrow">${S.options.reveal ? "Annoncez son rôle" : "Rôle gardé secret"}</span>
+    <span class="dname">${esc(p.name)}${heart}</span>
+    ${S.options.reveal
+      ? `${glyph(p.role, "camp-" + R.camp)}<strong>${R.name}</strong><span class="camp camp-${R.camp}">${CAMPNAME[R.camp]}</span>`
+      : (UI.hideRoles ? "" : `<span class="note">Pour le MJ : ${mini(p)}${R.name}</span>`)}
+    <span class="cause">${CAUSE[e.cause]}</span>
+  </li>`;
+}
+const mayorAlive = () => S.players.find(p => p.mayor && p.alive);
+const DSTEPS = {
+  annonce: {
+    g: "sun", t: "Annonce du matin",
+    body: D => `<p class="script">« Le Palace se réveille… »</p>
+      ${D.announce.length ? `<ul class="deaths">${D.announce.map(deathLine).join("")}</ul>` : `<p class="verdict">Le Palace se réveille au complet. Personne n'est mort cette nuit.</p>`}`,
+    ready: () => !S.pending.length, next: "Passer à la suite",
+  },
+  maitre: {
+    g: "mc", t: "Maître de cérémonie",
+    body: () => { const m = mayorAlive(); return `<p class="script">« Le Palace élit son Maître de cérémonie. Sa voix comptera double lors des votes. »</p>
+      ${chips("mayor", { sel: m ? [m.id] : [] })}
+      ${m ? `<p class="note"><b>${esc(m.name)}</b> préside désormais les débats.</p>` : `<p class="note">Touchez le nom du joueur élu.</p>`}`; },
+    ready: () => !!mayorAlive(), next: "Ouvrir les débats",
+  },
+  vote: {
+    g: "vote", t: "Vote du Palace",
+    body: D => D.voted
+      ? (D.voteOut.length ? `<ul class="deaths">${D.voteOut.map(deathLine).join("")}</ul>` : `<p class="verdict">Personne n'est éliminé aujourd'hui.</p>`)
+      : `<p class="script">« Le Palace débat, puis vote pour éliminer un suspect. »</p>
+        ${mayorAlive() ? `<p class="note">Voix double : <b class="mayor-name">${esc(mayorAlive().name)}</b></p>` : ""}
+        ${chips("vote", { sel: [D.vote] })}
+        <div class="row">
+          <button class="btn primary" data-a="vote-out" ${D.vote != null ? "" : "disabled"}>Éliminer ${D.vote != null ? nm(D.vote) : ""}</button>
+          <button class="btn" data-a="vote-none">Personne</button>
+        </div>`,
+    ready: D => D.voted && !S.pending.length, next: "Terminer la journée",
+  },
+  nuit: {
+    g: "moon", t: "Fin du jour",
+    body: D => `<p class="script">« La nuit tombe sur le Palace. Tout le monde ferme les yeux. »</p>
+      <p class="note">${alive().length} joueurs encore en vie.</p>
+      <button class="btn primary" data-a="to-night" ${S.pending.length ? "disabled" : ""}>Le Palace s'endort · Nuit ${D.n + 1}</button>`,
+  },
+};
+function vDay() {
+  const D = S.day;
+  const st = ["annonce", ...((D.mayorStep ?? !mayorAlive()) ? ["maitre"] : []), "vote", "nuit"];
+  const i = Math.min(D.idx || 0, st.length - 1), s = st[i], X = DSTEPS[s];
+  const list = st.map((x, k) => ({ g: DSTEPS[x].g, t: DSTEPS[x].t, done: k < i }));
+  const prev = i > 0 ? `<button class="btn back" data-a="wiz-go" data-i="${i - 1}" aria-label="Étape précédente">Retour</button>` : "";
+  const next = X.next ? `<button class="btn primary" data-a="wiz-go" data-i="${i + 1}" ${X.ready(D) ? "" : "disabled"}>${X.next}</button>` : "";
+  return wizard(list, i, `<div class="wb">${X.body(D)}</div>`, prev + next);
+}
+
+function vCarto() {
+  if (!UI.cartoShow || S.cycle.type !== "night" || S.night.carto == null) return "";
+  const t = byId(S.night.carto), R = ROLES[t.role];
+  return `<div class="overlay" role="dialog" aria-modal="true" aria-label="Rôle de ${esc(t.name)}">
+    <div class="frame rolecard big fade">
+      <span class="eyebrow">Les cartes de</span>
+      <div class="who">${esc(t.name)}</div>
+      ${glyph(t.role, "camp-" + R.camp)}
+      <h2>${R.name}</h2>
+      <span class="camp camp-${R.camp}">${CAMPNAME[R.camp]}</span>
+    </div>
+    <button class="btn primary" data-a="carto-close">Cacher l'écran</button>
+  </div>`;
+}
+
+function vPending() {
+  if (!S.pending.length) return "";
+  const P = S.pending[0], from = byId(P.from);
+  if (P.type === "gangster") return `<div class="frame stack alert fade">
+    <span class="eyebrow">Le Gangster dégaine</span>
+    <p><b>${esc(from.name)}</b> était le Gangster. Avant de tomber, il élimine immédiatement le joueur de son choix.</p>
+    ${chips("pend")}
+    <button class="linkbtn" data-a="pend-none">Il ne tire sur personne</button></div>`;
+  const R = ROLES[from.role];
+  if (!P.shown) return `<div class="frame stack alert fade">
+    <span class="eyebrow">Mort du Maître de cérémonie</span>
+    <p><b>${esc(from.name)}</b>, Maître de cérémonie, quitte la partie.</p>
+    <div class="seer">
+      <span class="eyebrow">${S.options.reveal ? "Annoncez son rôle" : "Son rôle (gardé secret selon les options)"}</span>
+      ${glyph(from.role, "camp-" + R.camp)}
+      <strong>${R.name}</strong>
+      <span class="camp camp-${R.camp}">${CAMPNAME[R.camp]}</span>
+    </div>
+    <button class="btn primary" data-a="pend-shown">Passer à la succession</button></div>`;
+  return `<div class="frame stack alert fade">
+    <span class="eyebrow">Succession</span>
+    <p><b>${esc(from.name)}</b> (${R.name}) désigne son successeur au titre de Maître de cérémonie.</p>
+    ${chips("pend")}
+    <button class="linkbtn" data-a="pend-none">Pas de successeur</button></div>`;
+}
+function vWin() {
+  if (!S.winner || S.winnerSeen || S.pending.length) return "";
+  const W = WIN[S.winner];
+  return `<div class="frame win fade">${glyph(S.winner === "fauves" ? "fauve" : S.winner === "lovers" ? "crooner" : "invite")}
+    <span class="eyebrow">Fin de la partie</span><h2>${W.title}</h2><p>${W.text}</p>
+    <div class="row" style="width:100%"><button class="btn primary" data-a="end-game">Terminer</button><button class="btn" data-a="win-dismiss">Continuer quand même</button></div></div>`;
+}
+
+function vPlayers() {
+  const a = alive(), f = a.filter(p => campOf(p) === "fauves").length;
+  const lovers = S.players.filter(p => p.lover);
+  return `
+  <div class="summary">
+    <div><b>${a.length}</b><span>en vie / ${S.players.length}</span></div>
+    <div><b class="camp-fauves">${UI.hideRoles ? "?" : f}</b><span>Fauves</span></div>
+    <div><b class="camp-palace">${UI.hideRoles ? "?" : a.length - f}</b><span>Palace</span></div>
+  </div>
+  <div class="facts">
+    <span>Remontant <b>${S.potions.life ? "disponible" : "bu"}</b></span>
+    <span>Cocktail fatal <b>${S.potions.death ? "disponible" : "servi"}</b></span>
+    ${S.lastProtect != null ? `<span>Dernière porte gardée <b>${nm(S.lastProtect)}</b></span>` : ""}
+    ${lovers.length === 2 ? `<span>Amoureux <b>${esc(lovers[0].name)} ♥ ${esc(lovers[1].name)}</b></span>` : ""}
+  </div>
+  <div class="ptable">
+    ${S.players.map(p => {
+      const R = ROLES[p.role], open = UI.open === p.id;
+      const guarded = S.cycle.type === "night" ? S.night.protect === p.id : S.lastProtect === p.id;
+      return `<div class="prow ${p.alive ? "" : "dead"}">
+        <button data-a="open-player" data-p="${p.id}" aria-expanded="${open}">
+          ${UI.hideRoles ? glyph("invite") : glyph(p.role, "camp-" + R.camp)}
+          <span class="pn"><strong class="${p.mayor && p.alive ? "mayor-name" : ""}">${esc(p.name)}</strong><span class="${UI.hideRoles ? "muted" : "camp-" + R.camp}">${UI.hideRoles ? "Rôle masqué" : R.name}</span></span>
+          <span class="badges">
+            ${p.mayor ? `<span class="badge mc">Maître</span>` : ""}
+            ${p.lover ? `<span class="badge love">Amoureux</span>` : ""}
+            ${p.alive && guarded ? `<span class="badge guard">Gardé</span>` : ""}
+            ${p.alive ? "" : `<span class="badge dead">Mort</span>`}
+          </span>
+        </button>
+        ${open ? `<div class="pact">
+          ${p.alive ? `<button class="btn slim danger" data-a="mj-kill" data-p="${p.id}">Éliminer</button>` : `<button class="btn slim" data-a="mj-revive" data-p="${p.id}">Ramener en jeu</button>`}
+          ${p.alive ? `<button class="btn slim" data-a="mj-mayor" data-p="${p.id}">${p.mayor ? "Retirer le titre" : "Maître de cérémonie"}</button>` : ""}
+          <button class="btn slim" data-a="mj-lover" data-p="${p.id}">${p.lover ? "Plus amoureux" : "Amoureux"}</button>
+        </div>` : ""}
+      </div>`;
+    }).join("")}
+  </div>
+  <div class="section-title" style="margin-top:8px"><span class="eyebrow">Journal de la partie</span></div>
+  <ul class="log">${S.log.map(l => `<li><b>${esc(l.at)}</b><span>${esc(l.t)}</span></li>`).join("") || `<li><b>—</b><span>Rien pour l'instant.</span></li>`}</ul>`;
+}
+
+function vGame() {
+  const night = S.cycle.type === "night";
+  return `
+  <header class="topbar">
+    <div class="head">
+      <div class="phase">${glyph(night ? "moon" : "sun")}<div><span class="eyebrow">${S.ended ? "Partie terminée" : night ? "Le Palace dort" : "Le Palace s'éveille"}</span><h1>${phaseLabel()}</h1></div></div>
+      <button class="iconbtn" data-a="toggle-hide" aria-label="${UI.hideRoles ? "Afficher les rôles" : "Masquer les rôles"}" aria-pressed="${UI.hideRoles}"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">${G[UI.hideRoles ? "eyeoff" : "eye"]}</svg></button>
+      <button class="iconbtn" data-a="go" data-to="home" aria-label="Accueil"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round">${G.home}</svg></button>
+    </div>
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="${UI.tab === "flow"}" data-a="tab" data-t="flow">${night ? "Ordre de la nuit" : "Déroulé du jour"}</button>
+      <button role="tab" aria-selected="${UI.tab === "players"}" data-a="tab" data-t="players">Joueurs · ${alive().length}</button>
+    </div>
+  </header>
+  ${vWin()}
+  ${vPending()}
+  ${vCarto()}
+  ${UI.tab === "players" ? vPlayers() : night ? vNight() : vDay()}`;
+}
+
+/* ================= Actions ================= */
+let wakeLock = null;
+async function keepAwake() { try { if ("wakeLock" in navigator && !wakeLock) { wakeLock = await navigator.wakeLock.request("screen"); wakeLock.addEventListener("release", () => { wakeLock = null; }); } } catch (e) {} }
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && (UI.screen === "game" || UI.screen === "distrib")) keepAwake(); });
+
+function afterDeaths() { checkWin(); }
+
+function act(a, d) {
+  switch (a) {
+    case "go": UI.screen = d.to; UI.confirmNew = false; break;
+    case "resume": UI.screen = S.distrib.done ? "game" : "distrib"; keepAwake(); break;
+    case "newgame": if (S && !S.ended) { UI.confirmNew = true; break; } /* fallthrough */
+    case "newgame-force": UI.confirmNew = false; UI.screen = "names"; UI.nameError = ""; break;
+    case "cancel-new": UI.confirmNew = false; break;
+    case "rm-name": UI.names.splice(+d.i, 1); UI.example = false; store.set(NAMES, UI.names); break;
+    case "clear-names": UI.names = []; UI.example = false; store.set(NAMES, UI.names); UI.focusName = true; break;
+    case "to-compo":
+      if (!UI.compo || total(UI.compo) !== UI.names.length) UI.compo = suggest(UI.names.length);
+      store.set(NAMES, UI.names); UI.screen = "compo"; break;
+    case "suggest": UI.compo = suggest(UI.names.length); break;
+    case "inc": UI.compo[d.r]++; break;
+    case "dec": UI.compo[d.r] = Math.max(0, UI.compo[d.r] - 1); break;
+    case "start-distrib": newGame(); UI.screen = "distrib"; keepAwake(); break;
+    case "show-role": S.distrib.shown = true; break;
+    case "hide-role": S.distrib.shown = false; S.distrib.i++; break;
+    case "prev-player": S.distrib.i = Math.max(0, S.distrib.i - 1); break;
+    case "begin": S.distrib.done = true; UI.screen = "game"; UI.tab = "flow"; break;
+    case "tab": UI.tab = d.t; UI.open = null; break;
+    case "toggle-hide": UI.hideRoles = !UI.hideRoles; break;
+    case "wiz-go": { const T = S.cycle.type === "night" ? S.night : S.day; T.idx = Math.max(0, +d.i); window.scrollTo(0, 0); break; }
+    case "carto-open": UI.cartoShow = true; break;
+    case "carto-close": UI.cartoShow = false; break;
+    case "step-done": {
+      const N = S.night;
+      N.done[d.s] = true;
+      if (d.s === "crooner") { S.players.forEach(p => { p.lover = N.lovers.includes(p.id); }); log(`La Chanteuse de jazz unit ${byId(N.lovers[0]).name} et ${byId(N.lovers[1]).name}.`); }
+      if (d.s === "cartomancienne" && N.carto != null) log(`La Cartomancienne lit les cartes de ${byId(N.carto).name}.`);
+      if (d.s === "fauves" && N.victim != null) log(`Les Fauves choisissent ${byId(N.victim).name}.`);
+      if (d.s === "barmaid" && N.poison != null) log(`La Barmaid sert le Cocktail fatal à ${byId(N.poison).name}.`);
+      N.idx = +d.i + 1; window.scrollTo(0, 0); break;
+    }
+    case "toggle-save": S.night.save = !S.night.save; break;
+    case "pick": UI.justPicked = d.k + d.p; pick(d.k, +d.p); break;
+    case "dawn": dawn(); break;
+    case "vote-out": {
+      const D = S.day; if (D.vote == null) break;
+      D.voteOut = kill(D.vote, "vote"); D.voted = true; afterDeaths(); break;
+    }
+    case "vote-none": S.day.voted = true; S.day.voteOut = []; log("Le Palace n'élimine personne."); break;
+    case "to-night": startNight(S.day.n + 1); log("Le Palace s'endort."); break;
+    case "pend-shown": S.pending[0].shown = true; break;
+    case "pend-none": { const P = S.pending.shift(); log(P.type === "gangster" ? "Le Gangster ne tire sur personne." : "Aucun successeur désigné."); afterDeaths(); break; }
+    case "open-player": UI.open = UI.open === +d.p ? null : +d.p; break;
+    case "mj-kill": { const out = kill(+d.p, "mj"); if (S.day && S.cycle.type === "day") S.day.announce.push(...out); afterDeaths(); break; }
+    case "mj-revive": { const p = byId(+d.p); p.alive = true; p.cause = null; log(`${p.name} revient en jeu.`); S.winner = null; checkWin(); break; }
+    case "mj-mayor": { const p = byId(+d.p); const was = p.mayor; S.players.forEach(q => q.mayor = false); p.mayor = !was; log(p.mayor ? `${p.name} devient Maître de cérémonie.` : `${p.name} n'est plus Maître de cérémonie.`); break; }
+    case "mj-lover": { const p = byId(+d.p); p.lover = !p.lover; break; }
+    case "win-dismiss": S.winnerSeen = true; break;
+    case "end-game": S.winnerSeen = true; S.ended = true; UI.tab = "players"; break;
+  }
+  save(); render();
+}
+
+function pick(k, id) {
+  const N = S.night, D = S.day;
+  const tog = (cur) => cur === id ? null : id;
+  switch (k) {
+    case "lovers": {
+      const i = N.lovers.indexOf(id);
+      if (i >= 0) N.lovers.splice(i, 1); else { if (N.lovers.length >= 2) N.lovers.shift(); N.lovers.push(id); }
+      break;
+    }
+    case "protect": N.protect = tog(N.protect); break;
+    case "carto": N.carto = tog(N.carto); UI.cartoShow = N.carto != null; break;
+    case "victim": N.victim = tog(N.victim); if (N.victim == null) N.save = false; break;
+    case "poison": N.poison = tog(N.poison); break;
+    case "mayor": S.players.forEach(p => p.mayor = false); byId(id).mayor = true; log(`${byId(id).name} est élu·e Maître de cérémonie.`); break;
+    case "vote": D.vote = tog(D.vote); break;
+    case "pend": {
+      const P = S.pending.shift();
+      if (P.type === "gangster") {
+        log(`Le Gangster ${byId(P.from).name} abat ${byId(id).name}.`);
+        const out = kill(id, "gangster");
+        if (S.cycle.type === "day" && S.day) (S.day.voted ? S.day.voteOut : S.day.announce).push(...out);
+      } else { S.players.forEach(p => p.mayor = false); byId(id).mayor = true; log(`${byId(id).name} succède comme Maître de cérémonie.`); }
+      afterDeaths();
+      break;
+    }
+  }
+}
+
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-a]");
+  if (!el || el.disabled) return;
+  act(el.dataset.a, el.dataset);
+});
+document.addEventListener("submit", e => {
+  if (e.target.id !== "addform") return;
+  e.preventDefault();
+  const inp = document.getElementById("newname");
+  const v = (inp.value || "").trim().replace(/\s+/g, " ");
+  UI.nameError = "";
+  if (!v) return;
+  if (UI.example) { UI.names = []; UI.example = false; }
+  if (UI.names.some(x => x.toLowerCase() === v.toLowerCase())) UI.nameError = `${v} est déjà dans la liste. Ajoutez une initiale pour les distinguer.`;
+  else if (UI.names.length < MAX) UI.names.push(v);
+  store.set(NAMES, UI.names);
+  UI.focusName = true;
+  render();
+});
+document.addEventListener("change", e => { if (e.target.id === "reveal") { UI.reveal = e.target.checked; } });
+
+render();
+
+/* Service worker (version installable uniquement) */
+if ("serviceWorker" in navigator && document.querySelector('link[rel="manifest"]')) {
+  window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
+}
+})();
+</script>
+</html>
